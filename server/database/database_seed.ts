@@ -7,20 +7,20 @@ export const populateDummyData = async () => {
   await IceUser.create({
     userId: 11,
     email: 'user11@character.com',
-    secret: 'hell01',
-    imageUrl: 'assets/image.jpg',
+    secret: 'hell011',
+    imageUrl: 'assets/image11.jpg',
   });
   await IceUser.create({
     userId: 12,
     email: 'user12@character.com',
-    secret: 'hell01',
-    imageUrl: 'assets/image.jpg',
+    secret: 'hell012',
+    imageUrl: 'assets/image12.jpg',
   });
   await IceUser.create({
     userId: 13,
     email: 'user1@character.com',
-    secret: 'hell01',
-    imageUrl: 'assets/image.jpg',
+    secret: 'hell013',
+    imageUrl: 'assets/image13.jpg',
   });
   const userCount = (await IceUser.findAll()).length;
   console.log(

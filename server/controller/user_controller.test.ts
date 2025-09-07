@@ -13,16 +13,16 @@ afterEach(() => {
 
 const dummyIceUserData = [
   {
-    userId: 1,
-    email: '',
-    secret: '',
-    imageUrl: '',
+    userId: 11,
+    email: 'user11@character.com',
+    secret: 'hell011',
+    imageUrl: 'assets/image11.jpg',
   },
   {
-    userId: 2,
-    email: '',
-    secret: '',
-    imageUrl: '',
+    userId: 12,
+    email: 'user12@character.com',
+    secret: 'hell012',
+    imageUrl: 'assets/image12.jpg',
   },
 ];
 
@@ -68,7 +68,7 @@ describe('GET /api/v1/users/{userId} endpoint', () => {
       .mockResolvedValue(dummyIceUserData[1] as IceUser);
 
     // Act
-    const res = await request(app).get('/api/v1/users/2');
+    const res = await request(app).get('/api/v1/users/11');
 
     // Assert
     expect(res.statusCode).toEqual(200);
@@ -94,7 +94,7 @@ describe('GET /api/v1/users/{userId} endpoint', () => {
       .mockResolvedValue(dummyIceUserData[1] as IceUser);
 
     // Act
-    const res = await request(app).get('/api/v1/users/2');
+    const res = await request(app).get('/api/v1/users/11');
 
     // Assert
     expect(res.body).toEqual(dummyIceUserData[1]);
@@ -104,9 +104,11 @@ describe('GET /api/v1/users/{userId} endpoint', () => {
 describe('POST /api/v1/users endpoint', () => {
   test('status code successfully 201 for saving a valid user', async () => {
     // Act
-    const res = await request(app)
-      .post('/api/v1/users')
-      .send({ userId: 3, email: 'Fantastic Mr. Fox', imageUrl: 'Roald Dahl' });
+    const res = await request(app).post('/api/v1/users').send({
+      userId: 3,
+      email: 'user3@character.com',
+      imageUrl: 'assets/image.jpg',
+    });
 
     // Assert
     expect(res.statusCode).toEqual(201);
@@ -118,9 +120,10 @@ describe('POST /api/v1/users endpoint', () => {
     });
 
     // Act
-    const res = await request(app)
-      .post('/api/v1/users')
-      .send({ title: 'Fantastic Mr. Fox', author: 'Roald Dahl' }); // No userId
+    const res = await request(app).post('/api/v1/users').send({
+      email: 'user3@character.com',
+      imageUrl: 'assets/image.jpg',
+    }); // No userId
 
     // Assert
     expect(res.statusCode).toEqual(400);
@@ -130,9 +133,12 @@ describe('POST /api/v1/users endpoint', () => {
 describe('PUT /api/v1/users/{userId} endpoint', () => {
   test('status code successfully 201 for updating using a valid userId', async () => {
     // Act
-    const res = await request(app)
-      .put('/api/v1/users/1')
-      .send({ userId: 1, title: 'Fantastic Mr. Fox', author: 'Roald Dahl' });
+    const res = await request(app).put('/api/v1/users/1').send({
+      userId: 12,
+      email: 'user12@character.com',
+      secret: 'hell012',
+      imageUrl: 'assets/image.12jpg',
+    });
 
     // Assert
     expect(res.statusCode).toEqual(204);
@@ -144,9 +150,11 @@ describe('PUT /api/v1/users/{userId} endpoint', () => {
     });
 
     // Act
-    const res = await request(app)
-      .put('/api/v1/users/5')
-      .send({ title: 'Fantastic Mr. Fox', author: 'Roald Dahl' });
+    const res = await request(app).put('/api/v1/users/5').send({
+      userId: 3,
+      email: 'user3@character.com',
+      imageUrl: 'assets/image.jpg',
+    });
 
     // Assert
     expect(res.statusCode).toEqual(400);
