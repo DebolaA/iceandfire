@@ -1,0 +1,28 @@
+{
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "include": ["./server/**/*"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "strict": true /* Enable all strict type-checking options. */,
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "outDir": "./build",
+    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "types": ["jest", "node"]
+  }
+}
+
+// {
+//   "extends": "@tsconfig/node20/tsconfig.json",
+//   "compilerOptions": {
+//     "outDir": "./dist",
+//     "rootDir": "./src",
+//     "forceConsistentCasingInFileNames": true
+//   },
+//   "include": ["./server/**/*"],
+//   "exclude": ["node_modules", "dist"]
+// }
