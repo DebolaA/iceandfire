@@ -7,18 +7,24 @@
           <p class="text-xs-center">
             <a routerLink="/login">Have an account?</a>
           </p>
-          <div class="row">
-            <div class="form-group">
-              <label class="form-control border-0 text-danger">{{
-                data.httpError
-              }}</label>
-            </div>
-          </div>
+
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <!-- Error Message Section -->
+            <div>
+              <div class="form-group">
+                <label class="border-0 text-danger">{{ data.httpError }}</label>
+              </div>
+            </div>
+
+            <!-- Form Section -->
             <fieldset class="form-group">
               <input
                 type="text"
                 class="form-control form-control-lg"
+                [ngClass]="{
+                  'border-danger':
+                    form.get('username')?.dirty && form.get('username')?.invalid
+                }"
                 placeholder="Username"
                 formControlName="username"
               />
@@ -27,22 +33,29 @@
               <input
                 type="text"
                 class="form-control form-control-lg"
+                [ngClass]="{
+                  'border-danger':
+                    form.get('email')?.dirty && form.get('email')?.invalid
+                }"
                 placeholder="Email"
                 formControlName="email"
               />
             </fieldset>
-            <fieldset class="form-group">
+            <fieldset class="form-group" placeholder="Password">
               <input
                 type="password"
                 class="form-control form-control-lg"
-                placeholder="Password"
+                [ngClass]="{
+                  'border-danger':
+                    form.get('password')?.dirty && form.get('password')?.invalid
+                }"
                 formControlName="password"
               />
             </fieldset>
             <button
               type="submit"
               class="btn btn-lg btn-primary pull-xs-right"
-              [disabled]="data.isSubmitting"
+              [disabled]="form.invalid"
             >
               Sign Up
             </button>

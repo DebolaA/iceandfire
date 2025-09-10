@@ -33,10 +33,14 @@ export class RegisterComponent {
     this.form = this.fb.nonNullable.group({
       id: [null],
       username: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      imageUrl: ['', Validators.required],
+      imageUrl: [''],
     });
+
+    this.form.controls['username'].valueChanges.subscribe((val) =>
+      console.log(val)
+    );
   }
   onSubmit() {
     const request: IRegisterRequest = {
