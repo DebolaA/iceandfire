@@ -4,9 +4,9 @@ export const getAllUsers = async () => {
   return IceUser.findAll();
 };
 
-export const getIceUser = async (userId: number) => {
+export const getIceUser = async (id: number) => {
   return IceUser.findOne({
-    where: { userId },
+    where: { id },
   });
 };
 
@@ -14,18 +14,18 @@ export const saveIceUser = async (iceUser: IceUser) => {
   return IceUser.create<IceUser>(iceUser);
 };
 
-export const updateIceUser = async (userId: number, iceUser: IceUser) => {
+export const updateIceUser = async (id: number, iceUser: IceUser) => {
   return IceUser.update(iceUser, {
     where: {
-      userId,
+      id,
     },
   });
 };
 
-export const deleteIceUser = async (userId: number) => {
+export const deleteIceUser = async (id: number) => {
   return IceUser.destroy({
     where: {
-      userId,
+      id,
     },
   });
 };

@@ -13,16 +13,18 @@ afterEach(() => {
 
 const dummyIceUserData = [
   {
-    userId: 11,
+    id: 11,
     email: 'user11@character.com',
-    secret: 'hell011',
+    password: 'hell011',
     imageUrl: 'assets/image11.jpg',
+    username: 'User11',
   },
   {
-    userId: 12,
+    id: 12,
     email: 'user12@character.com',
-    secret: 'hell012',
+    password: 'hell012',
     imageUrl: 'assets/image12.jpg',
+    username: 'User12',
   },
 ];
 
@@ -60,7 +62,7 @@ describe('GET /api/v1/users endpoint', () => {
   });
 });
 
-describe('GET /api/v1/users/{userId} endpoint', () => {
+describe('GET /api/v1/users/{id} endpoint', () => {
   test('status code successfully 200 for a user that is found', async () => {
     // Arrange
     const mockGetUser = jest
@@ -105,9 +107,11 @@ describe('POST /api/v1/users endpoint', () => {
   test('status code successfully 201 for saving a valid user', async () => {
     // Act
     const res = await request(app).post('/api/v1/users').send({
-      userId: 3,
+      id: null,
       email: 'user3@character.com',
       imageUrl: 'assets/image.jpg',
+      username: 'user3',
+      password: 'password3',
     });
 
     // Assert
@@ -123,21 +127,23 @@ describe('POST /api/v1/users endpoint', () => {
     const res = await request(app).post('/api/v1/users').send({
       email: 'user3@character.com',
       imageUrl: 'assets/image.jpg',
-    }); // No userId
+    }); // No id
 
     // Assert
     expect(res.statusCode).toEqual(400);
   });
 });
 
-describe('PUT /api/v1/users/{userId} endpoint', () => {
-  test('status code successfully 201 for updating using a valid userId', async () => {
+describe('PUT /api/v1/users/{id} endpoint', () => {
+  test('status code successfully 201 for updating using a valid id', async () => {
     // Act
     const res = await request(app).put('/api/v1/users/1').send({
-      userId: 12,
+      id: 12,
       email: 'user12@character.com',
       secret: 'hell012',
       imageUrl: 'assets/image.12jpg',
+      username: 'user12',
+      password: 'password12',
     });
 
     // Assert
@@ -151,7 +157,7 @@ describe('PUT /api/v1/users/{userId} endpoint', () => {
 
     // Act
     const res = await request(app).put('/api/v1/users/5').send({
-      userId: 3,
+      id: 3,
       email: 'user3@character.com',
       imageUrl: 'assets/image.jpg',
     });
@@ -161,8 +167,8 @@ describe('PUT /api/v1/users/{userId} endpoint', () => {
   });
 });
 
-describe('DELETE /api/v1/users/{userId} endpoint', () => {
-  test('status code 204 for a successful delete using a valid userId', async () => {
+describe('DELETE /api/v1/users/{id} endpoint', () => {
+  test('status code 204 for a successful delete using a valid id', async () => {
     // Act
     const res = await request(app).delete('/api/v1/users/1');
 
@@ -170,7 +176,7 @@ describe('DELETE /api/v1/users/{userId} endpoint', () => {
     expect(res.statusCode).toEqual(204);
   });
 
-  test('status code 400 when deleting with a non existing userId', async () => {
+  test('status code 400 when deleting with a non existing id', async () => {
     jest.spyOn(iceUserService, 'deleteIceUser').mockImplementation(() => {
       throw new Error('Invalid user Id');
     });

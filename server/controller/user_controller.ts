@@ -1,5 +1,13 @@
 import { Request, Response } from 'express';
 import * as IceUserService from '../services/user_service';
+import * as Utils from '../utils/utils';
+import { HttpResponse } from '@angular/common/http';
+import {
+  BaseError,
+  UniqueConstraintError,
+  ValidationError,
+  ValidationErrorItemType,
+} from 'sequelize';
 
 export const getAllUsers = async (req: Request, res: Response) => {
   const users = await IceUserService.getAllUsers();
@@ -21,8 +29,21 @@ export const saveIceUser = async (req: Request, res: Response) => {
   const userToBeSaved = req.body;
   try {
     const user = await IceUserService.saveIceUser(userToBeSaved);
-    res.status(201).json(user);
+    const token = Utils.generateToken(25);
+    const newUser = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      imageUrl: user.imageUrl,
+      token: token,
+    };
+    res.status(201).json({ user: newUser });
   } catch (error) {
+    error instanceof ValidationError
+      ? console.log(error.errors)
+      : (error as Error).message;
+    // console.log(ValidationErrorItemType);
     res.status(400).json({ message: (error as Error).message });
   }
 };
