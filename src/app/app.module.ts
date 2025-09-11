@@ -4,7 +4,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { metaReducers, reducers } from './reducers';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import {
+  routerReducer,
+  RouterState,
+  StoreRouterConnectingModule,
+} from '@ngrx/router-store';
 import { provideHttpClient } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -29,7 +33,10 @@ import { EffectsModule } from '@ngrx/effects';
       trace: false,
       traceLimit: 75,
     }),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({
+      stateKey: 'router',
+      routerState: RouterState.Minimal,
+    }),
     EffectsModule.forRoot([]),
   ],
   providers: [provideHttpClient()],

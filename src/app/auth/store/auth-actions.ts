@@ -2,6 +2,7 @@ import { createAction, props, emptyProps } from '@ngrx/store';
 import { IRegisterRequest } from '../types/registerRequest.interface';
 import { ICurrentUser } from '../../model/ice.interface';
 import { IBackendError } from '../../model/backendErrors.interface';
+import { ILoginRequest } from '../types/login-request.interface';
 
 export const register = createAction(
   '[Auth] Register',
@@ -15,5 +16,20 @@ export const registerSuccess = createAction(
 
 export const registerFailure = createAction(
   '[Auth] Register Failure',
+  props<{ error: IBackendError }>()
+);
+
+export const login = createAction(
+  '[Auth] Login',
+  props<{ request: ILoginRequest }>()
+);
+
+export const loginSuccess = createAction(
+  '[Auth] Login Success',
+  props<{ currentUser: ICurrentUser }>()
+);
+
+export const loginFailure = createAction(
+  '[Auth] Login Failure',
   props<{ error: IBackendError }>()
 );

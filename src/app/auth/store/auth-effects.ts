@@ -50,3 +50,46 @@ export const redirectAfterRegisterEffect = createEffect(
   },
   { functional: true, dispatch: false }
 );
+
+export const loginEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    authHttpService = inject(AuthHttpService),
+    localStorageService = inject(LocalStoreMgrService)
+  ) => {
+    return actions$.pipe(
+      ofType(AuthActions.login),
+      switchMap(({ request }) => {
+        return authHttpService.login(request).pipe(
+          map((currentUser: ICurrentUser) => {
+            localStorageService.setLocalStoreItem(
+              'accessToken',
+              currentUser.token
+            );
+            return AuthActions.loginSuccess({ currentUser });
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            return of(
+              AuthActions.loginFailure({
+                error: errorResponse.error.message,
+              })
+            );
+          })
+        );
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const redirectAfterLoginEffect = createEffect(
+  (actions$ = inject(Actions), router = inject(Router)) => {
+    return actions$.pipe(
+      ofType(AuthActions.loginSuccess),
+      tap(() => {
+        router.navigateByUrl('/');
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);

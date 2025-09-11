@@ -1,5 +1,5 @@
 import { ICurrentUser } from '../../model/ice.interface';
 
-export interface IRegisterResponse {
+export interface IAuthResponse {
   user: ICurrentUser;
 }

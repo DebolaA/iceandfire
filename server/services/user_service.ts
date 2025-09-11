@@ -10,6 +10,12 @@ export const getIceUser = async (id: number) => {
   });
 };
 
+export const getLoggedInUser = async (email: string, password: string) => {
+  return IceUser.findOne({
+    where: { email: email, password: password },
+  });
+};
+
 export const saveIceUser = async (iceUser: IceUser) => {
   return IceUser.create<IceUser>(iceUser);
 };

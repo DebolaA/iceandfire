@@ -3,9 +3,9 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Sign Up</h1>
+          <h1 class="text-xs-center">Sign In</h1>
           <p class="text-xs-center">
-            <a routerLink="/my-account/login">Have an account?</a>
+            <a routerLink="/register">Need an account?</a>
           </p>
 
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -17,18 +17,6 @@
             </div>
 
             <!-- Form Section -->
-            <fieldset class="form-group">
-              <input
-                type="text"
-                class="form-control form-control-lg"
-                [ngClass]="{
-                  'border-danger':
-                    form.get('username')?.dirty && form.get('username')?.invalid
-                }"
-                placeholder="Username"
-                formControlName="username"
-              />
-            </fieldset>
             <fieldset class="form-group">
               <input
                 type="text"
@@ -58,7 +46,7 @@
               class="btn btn-lg btn-primary pull-xs-right"
               [disabled]="form.invalid"
             >
-              Sign Up
+              Sign In
             </button>
           </form>
         </div>
