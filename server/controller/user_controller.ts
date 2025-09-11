@@ -1,5 +1,13 @@
 import { Request, Response } from 'express';
 import * as IceUserService from '../services/user_service';
+import * as Utils from '../utils/utils';
+import { HttpResponse } from '@angular/common/http';
+import {
+  BaseError,
+  UniqueConstraintError,
+  ValidationError,
+  ValidationErrorItemType,
+} from 'sequelize';
 
 export const getAllUsers = async (req: Request, res: Response) => {
   const users = await IceUserService.getAllUsers();
@@ -17,12 +25,55 @@ export const getIceUser = async (req: Request, res: Response) => {
   }
 };
 
+export const getLoggedInUser = async (req: Request, res: Response) => {
+  const email = req.params['email'];
+  console.log('email', email);
+  const password = req.params['password'];
+  console.log('pass', password);
+  try {
+    const user = await IceUserService.getLoggedInUser(email, password);
+    const token = Utils.generateToken(25);
+    if (user) {
+      const newUser = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        imageUrl: user.imageUrl,
+        token: token,
+      };
+      res.status(201).json({ user: newUser });
+    } else {
+      throw new Error('User does not exist');
+    }
+  } catch (error) {
+    // error instanceof ValidationError
+    //   ? console.log(error.errors)
+    //   : (error as Error).message;
+    // console.log(ValidationErrorItemType);
+    res.status(400).json({ message: (error as Error).message });
+  }
+};
+
 export const saveIceUser = async (req: Request, res: Response) => {
   const userToBeSaved = req.body;
   try {
     const user = await IceUserService.saveIceUser(userToBeSaved);
-    res.status(201).json(user);
+    const token = Utils.generateToken(25);
+    const newUser = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      imageUrl: user.imageUrl,
+      token: token,
+    };
+    res.status(201).json({ user: newUser });
   } catch (error) {
+    error instanceof ValidationError
+      ? console.log(error.errors)
+      : (error as Error).message;
+    // console.log(ValidationErrorItemType);
     res.status(400).json({ message: (error as Error).message });
   }
 };

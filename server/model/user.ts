@@ -11,30 +11,39 @@ export class IceUser extends Model<
   InferAttributes<IceUser>,
   InferCreationAttributes<IceUser>
 > {
-  declare userId: CreationOptional<number>;
+  declare id: CreationOptional<number>;
   declare email: string;
-  declare secret: string;
+  declare password: string;
   declare imageUrl: string;
+  declare username: string;
 }
 
 IceUser.init(
   {
-    userId: {
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
+      autoIncrement: true,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: { isEmail: true },
+      unique: true,
     },
-    secret: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     imageUrl: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
   },
   {
